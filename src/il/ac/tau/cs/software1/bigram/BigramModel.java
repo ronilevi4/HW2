@@ -198,8 +198,23 @@ public class BigramModel {
      * @post: if sentence is probable, according to the model, $ret = true, else, $ret = false
      */
     public boolean isLegalSentence(String sentence) { // Question 5
-        // TODO: implement
-        return false;
+        String[] words = sentence.split(" ");
+        if (sentence.isEmpty()) {
+            return true;
+        }
+        if (words.length == 1) {
+            return findIndex(mVocabulary, words[0]) != ELEMENT_NOT_FOUND;
+        }
+        for (int i = 0; i < words.length - 1; i++) {
+            String word1 = words[i];
+            String word2 = words[i + 1];
+            int index1 = findIndex(mVocabulary, word1);
+            int index2 = findIndex(mVocabulary, word2);
+            if (index1 == ELEMENT_NOT_FOUND || index2 == ELEMENT_NOT_FOUND || mBigramCounts[index1][index2] == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
