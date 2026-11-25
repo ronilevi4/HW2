@@ -3,38 +3,46 @@ package il.ac.tau.cs.software1.inventory;
 /*
  * A simple array-based Inventory (Question 6).
  */
-public class NaiveInventory implements Inventory {
+	public class NaiveInventory implements Inventory {
 
-	private static final int INITIAL_CAPACITY = 100;
+		private static final int INITIAL_CAPACITY = 100;
+		private Collectible[] collectibles;
+		private int count;
 
-	// TODO: add the fields:
-	//       - an array of Collectibles (it may be larger than the number of items actually stored)
-	//       - an int that counts how many items are actually stored
+		public NaiveInventory() {
+			this.collectibles = new Collectible[INITIAL_CAPACITY];
+			this.count = 0;
+		}
 
-	public NaiveInventory() {
-		// TODO: implement
+		@Override
+		public void collect(Collectible collectible) {
+			if (count == collectibles.length) {
+				Collectible[] newCollectibles = new Collectible[collectibles.length * 2];
+				for (int i = 0; i < collectibles.length; i++) {
+					newCollectibles[i] = collectibles[i];
+				}
+				collectibles = newCollectibles;
+			}
+			collectibles[count] = collectible;
+			count++;
+		}
+
+		@Override
+		public float getTotalWeight() {
+			float totalWeight = 0.f;
+			for (int i = 0; i < count; i++) {
+				totalWeight += collectibles[i].getWeight();
+			}
+			return totalWeight;
+		}
+
+		@Override
+		public int getCurrentCount() {
+			return count;
+		}
+
+		// Returns the array of Collectibles that is stored in the field of this class
+		public Collectible[] getCollArr() {
+			return collectibles;
+		}
 	}
-
-	@Override
-	public void collect(Collectible collectible) {
-		// TODO: implement
-	}
-
-	@Override
-	public float getTotalWeight() {
-		// TODO: implement
-		return 0.f;
-	}
-
-	@Override
-	public int getCurrentCount() {
-		// TODO: implement
-		return 0;
-	}
-
-	// Returns the array of Collectibles that is stored in the field of this class
-	public Collectible[] getCollArr() {
-		// TODO: implement
-		return null;
-	}
-}
